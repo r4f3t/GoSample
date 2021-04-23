@@ -1,6 +1,8 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 const programIsmi = "İdeal Kilo Programı"
 
@@ -20,7 +22,80 @@ func main() {
 	fmt.Printf("Boy: %v Yaş: %v Cinsiyet: %v İdeal Kilo: %v", boy, yas, cinsiyet, ideal)
 
 	arraysSlicesMaps()
+	//	faktoryel()
+	//	switchCase()
+	getProductsWitForeach()
 
+	fmt.Println(calculator(3, 5))
+	odd, even := seperateOddEven(1, 3, 5, 76)
+	fmt.Println(odd, even)
+}
+
+//variadic fonksiyon string args gibi eleman sayısı bağımsız dizi alır
+func seperateOddEven(a ...int) (odd []int, even []int) {
+
+	for i := 0; i < len(a); i++ {
+		if a[i]%2 == 0 {
+			even = append(even, a[i])
+		} else {
+			odd = append(odd, a[i])
+		}
+	}
+
+	return
+}
+
+func calculator(a, b int) (int, float32) {
+	carpim := a * b
+	bolum := float32(a) / float32(b)
+	return carpim, bolum
+}
+
+func faktoryel() {
+	var faktoryel, j = 0, 1
+	fmt.Println("Kaç Faktöryel=")
+	fmt.Scan(&faktoryel)
+	var result = 1
+	for i := 1; i <= faktoryel; i++ {
+		result *= i
+	}
+
+	//while döngüsü
+	for j <= faktoryel {
+		j++
+	}
+
+	fmt.Printf("Faktöryel :%v", result)
+}
+
+type Product struct {
+	Name string
+	Code string
+}
+
+func getProductsWitForeach() {
+	var slice = []Product{}
+	slice = append(slice, Product{Name: "Ürün1", Code: "Code1"})
+	slice = append(slice, Product{Name: "Ürün2", Code: "Code2"})
+	slice = append(slice, Product{Name: "Ürün3", Code: "Code3"})
+	for i, e := range slice {
+		fmt.Println(i, e)
+	}
+
+}
+
+func switchCase() {
+	fmt.Println("Gün Giriniz=")
+	var gun = 0
+	fmt.Scan(&gun)
+	switch gun {
+	case 1:
+		fmt.Println("pazartesi")
+	case 2:
+		fmt.Println("salı")
+	default:
+		fmt.Println("Geçersiz")
+	}
 }
 
 func arraysSlicesMaps() {
