@@ -2,7 +2,7 @@ package models
 
 type User struct {
 	FirstName string
-	ID        int64
+	ID        int
 	Interest  []Interest
 	LastName  string
 	Profile   string
