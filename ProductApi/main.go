@@ -1,11 +1,17 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"strconv"
+
+	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 func main() {
@@ -15,6 +21,12 @@ func main() {
 }
 
 func getProducts(w http.ResponseWriter, r *http.Request) {
+	var rafet []Product
+	var mproducts, _ = db().Database("ProductDb").Collection("Products").Find(context.TODO(), bson.D{})
+	mproducts.All(context.Background(), &rafet)
+
+	fmt.Println(rafet)
+
 	productId := r.FormValue("productId")
 	products := readData()
 	var response []Product
@@ -47,4 +59,21 @@ func readData() []Product {
 type Product struct {
 	Id   int
 	Name string
+}
+
+//mongodb works
+
+func db() *mongo.Client {
+	clientOptions := options.Client().ApplyURI("mongodb://localhost:27017") // Connect to //MongoDB
+	client, err := mongo.Connect(context.TODO(), clientOptions)
+	if err != nil {
+		log.Fatal(err)
+	}
+	// Check the connection
+	err = client.Ping(context.TODO(), nil)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println("Connected to MongoDB!")
+	return client
 }
